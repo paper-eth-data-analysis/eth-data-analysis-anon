@@ -89,7 +89,7 @@ In order to stream data into a PostgreSQL database you need to have a database s
 
 First off, make sure you have installed the dependencies listed at the top of the README. Then clone this repository and cd into that directory by running the following commands:
 ```bash 
-git clone https://github.com/grgcmz/eth-data-analysis.git ~/eth-data-analysis
+git clone https://github.com/paper-eth-data-analysis/eth-data-analysis-anon.git ~/eth-data-analysis
 cd ~/eth-data-analysis
 ```
 
