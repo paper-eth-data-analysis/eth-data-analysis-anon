@@ -85,7 +85,7 @@ by running the following command you can ensure that it was successfully install
 
 ### 2.2 Streaming Data to PostgreSQL
 
-In order to stream data into a PostgreSQL database you need to have a database setup with the correct schema in place. This will all be taken care of by a handy Python script we created. For instructions on how to do this manually, please read through the [section about manually streaming to your database](https://github.com/grgcmz/eth-data-analysis/blob/main/README.md#31-manually-streaming-data-to-your-database). Once a database is up and running and OpenEthereum is also syncing, you have two options. You can manually do the rest of the work as described in the next section, or you can use the automation script. Here is a short instruction on how to use the script.
+In order to stream data into a PostgreSQL database you need to have a database setup with the correct schema in place. This will all be taken care of by a handy Python script we created. For instructions on how to do this manually, please read through the [section about manually streaming to your database](https://github.com/paper-eth-data-analysis/eth-data-analysis-anon/blob/main/README.md#31-manually-streaming-data-to-your-database). Once a database is up and running and OpenEthereum is also syncing, you have two options. You can manually do the rest of the work as described in the next section, or you can use the automation script. Here is a short instruction on how to use the script.
 
 First off, make sure you have installed the dependencies listed at the top of the README. Then clone this repository and cd into that directory by running the following commands:
 ```bash 
@@ -100,7 +100,7 @@ Now run the script using Python3. You will be asked if you want to create the da
 python3 eth_etl_wrapper.py
 ```
 
-You will then be asked to provide some information about your database, as well as the location to the IPC file of your running OpenEthereum client (see [this section](https://github.com/grgcmz/eth-data-analysis/blob/main/README.md#122-starting-the-synchronization-process) for more information). When asked about from where to start the extraction, choose the first option and enter the block number you would like to start extracting from. If you have run Ethereum ETL before, you might have a last_synced_block.txt file, which you can use by choosing the second option. If you have such a file, but wish to start the extraction from a specific block, please delete the file. Otherwise, Ethereum ETL will fail with an error message. 
+You will then be asked to provide some information about your database, as well as the location to the IPC file of your running OpenEthereum client (see [this section](https://github.com/paper-eth-data-analysis/eth-data-analysis-anon/blob/main/README.md#122-starting-the-synchronization-process) for more information). When asked about from where to start the extraction, choose the first option and enter the block number you would like to start extracting from. If you have run Ethereum ETL before, you might have a last_synced_block.txt file, which you can use by choosing the second option. If you have such a file, but wish to start the extraction from a specific block, please delete the file. Otherwise, Ethereum ETL will fail with an error message. 
 
 This information is then provided to the call to Ethereum ETL. You will be then asked if you wish to have the script create the extraction schema for you. I suggest you answer yes, as the script will also truncate the `transactions` and `blocks` table in case you still have data inside from a past extraction (especially important before updating the database!). Type '1', hit Enter, then '5' to commit and hit Enter again. If everything is correct, you will see a(n unreadable) stream of messages signaling that Ethereum ETL is working correctly. You can check in your database the last imported block by running a query like the following:
 ```sql
@@ -137,12 +137,12 @@ Choose number 2 to create the star schema and then number 3 to extract, transfor
 Now everything will be set up, and you can start querying the data.
 
 ### 2.4 Updating the Database
-In order to update the database, you must run Ethereum ETL again, redo the transformations and load the data into the database. For this, make sure that there is an OpenEthereum node running. Then, run `eth_etl_wrapper.py` again as explained [here](https://github.com/grgcmz/eth-data-analysis/blob/main/README.md#22-streaming-data-to-postgresql). When prompted to choose what to do, choose option 1 and then option 5 to commit the changes. 
+In order to update the database, you must run Ethereum ETL again, redo the transformations and load the data into the database. For this, make sure that there is an OpenEthereum node running. Then, run `eth_etl_wrapper.py` again as explained [here](https://github.com/paper-eth-data-analysis/eth-data-analysis-anonblob/main/README.md#22-streaming-data-to-postgresql). When prompted to choose what to do, choose option 1 and then option 5 to commit the changes. 
 
-Afterwards, run `etl_postgres.py` as described [here](https://github.com/grgcmz/eth-data-analysis/blob/main/README.md#23-transformation-and-loading). **IMPORTANT**: This time, only choose option 3 when prompted and commit using option 5. DO NOT select option 2, as it will set up the star schema from scratch, i.e. it will delete all the data already loaded. 
+Afterwards, run `etl_postgres.py` as described [here](https://github.com/paper-eth-data-analysis/eth-data-analysis-anon/blob/main/README.md#23-transformation-and-loading). **IMPORTANT**: This time, only choose option 3 when prompted and commit using option 5. DO NOT select option 2, as it will set up the star schema from scratch, i.e. it will delete all the data already loaded. 
 
 ## 3 Manual ETL
-Make sure you have installed Ethereum ETL. If you have not, please go through [section 2.1](https://github.com/grgcmz/eth-data-analysis/blob/main/README.md#122-starting-the-synchronization-process) and do it before moving on. 
+Make sure you have installed Ethereum ETL. If you have not, please go through [section 2.1](https://github.com/paper-eth-data-analysis/eth-data-analysis-anon/blob/main/README.md#122-starting-the-synchronization-process) and do it before moving on. 
 ### 3.1 Manually streaming data to your database
 
 If you wish to manually run Ethereum ETL, make sure that you have the correct schema set up. You can run the sql statements specified [here](01_extraction_tables.sql) on your database, which will create two tables: transactions and blocks. Then you can run the following command, which will start extracting data from the node, transforming it and loading it into the tables of the database:
